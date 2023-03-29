@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
+
 import { getComments as fetchComments } from "@/utils/localAPI";
+
+import Comment from "./comment";
 
 const getComments = () => {
   const comments = fetchComments();
@@ -20,7 +23,11 @@ const Comments = (props) => {
   return (
     <div className={"comments"}>
       <h3 className={"comments-title"}>{"Comments"}</h3>
-      <div className="comments-container"></div>
+      <div className="comments-container">
+        {rootComments.map(({ id, ...rest }) => {
+          return <Comment key={id} id={id} {...rest} />;
+        })}
+      </div>
     </div>
   );
 };
