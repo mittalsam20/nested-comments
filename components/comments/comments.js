@@ -29,7 +29,10 @@ const addComment = ({
     });
     updatedComments = [newComment, ...comments];
   } else if (mode == "EDITING") {
-    updatedComments = [...comments, { ...comment, body: text }];
+    updatedComments = comments.map((comment) => {
+      if (comment.id == id) return { ...comment, body: text };
+      return comment;
+    });
   }
 
   setComments(updatedComments);
