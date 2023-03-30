@@ -4,6 +4,7 @@ import Image from "next/image";
 import { getReplies } from "@/utils/helperFunctions";
 
 import userAvatar from "../../../public/user-icon.png";
+import CommentForm from "../commentForm/commentForm";
 
 const onClickDelete = ({ comments, setComments, commentId }) => {
   const filteredComments = comments.filter(({ id }) => id !== commentId);
@@ -12,13 +13,14 @@ const onClickDelete = ({ comments, setComments, commentId }) => {
 
 const getActionButton = ({
   userId,
-  currentUserId,
-  postedBy = "1",
+  comments,
   createdAt,
   commentId,
-  comments,
   setComments,
+  currentUserId,
   onClickDelete,
+  postedBy = "1",
+  setActiveComment,
 }) => {
   const isUser = currentUserId == userId;
   const isAuthor = postedBy == currentUserId;
@@ -30,13 +32,13 @@ const getActionButton = ({
       id: "REPLY",
       label: "Reply",
       show: Boolean(currentUserId),
-      onClick: () => {},
+      onClick: () => setActiveComment({ id: commentId, mode: "REPLYING" }),
     },
     {
       id: "EDIT",
       label: "Edit",
       show: isUser,
-      onClick: () => {},
+      onClick: () => setActiveComment({ id: commentId, mode: "EDITING" }),
     },
     {
       id: "DELETE",
@@ -49,19 +51,23 @@ const getActionButton = ({
 
 const Comment = (props) => {
   const {
-    id,
-    body,
-    userId,
+    comment,
     replies,
     comments,
-    parentId,
-    userName,
-    createdAt,
+    addComment,
     setComments,
+    activeComment,
+    setActiveComment,
     currentUserId = 1,
   } = props;
 
+  const { id: activeCommentId, mode } = activeComment;
+  const { id, body, userName, userId, parentId, createdAt } = comment;
+
+  const submitLabel = mode == "EDITING" ? "Edit" : "Write";
+  const formattedDate = new Date(createdAt).toLocaleDateString();
   const actionButtons = getActionButton({
+    mode,
     userId,
     currentUserId,
     createdAt,
@@ -69,8 +75,8 @@ const Comment = (props) => {
     comments,
     setComments,
     onClickDelete,
+    setActiveComment,
   });
-  const formattedDate = new Date(createdAt).toLocaleDateString();
 
   return (
     <div className="comment">
@@ -94,23 +100,41 @@ const Comment = (props) => {
             );
           })}
         </div>
-        {replies.length > 0 && (
-          <div className="replies">
-            {replies.map(({ id, ...rest }) => {
-              const nestedReplies = getReplies({ comments, commentId: id });
-              return (
-                <Comment
-                  key={id}
-                  id={id}
-                  {...rest}
-                  replies={nestedReplies}
-                  comments={comments}
-                  setComments={setComments}
-                  currentUserId={currentUserId}
-                />
-              );
-            })}
-          </div>
+        {activeCommentId == id && (mode == "EDITING" || mode == "REPLYING") ? (
+          <CommentForm
+            submitLabel={submitLabel}
+            handleSubmit={({ text }) =>
+              addComment({
+                text,
+                mode,
+                comment,
+                comments,
+                setComments,
+                currentUserId,
+              })
+            }
+          />
+        ) : (
+          replies.length > 0 && (
+            <div className={"replies"}>
+              {replies.map((reply) => {
+                const { id } = reply;
+                const nestedReplies = getReplies({ comments, commentId: id });
+                return (
+                  <Comment
+                    key={id}
+                    comment={comment}
+                    replies={nestedReplies}
+                    comments={comments}
+                    setComments={setComments}
+                    currentUserId={currentUserId}
+                    activeComment={activeComment}
+                    setActiveComment={setActiveComment}
+                  />
+                );
+              })}
+            </div>
+          )
         )}
       </div>
     </div>

@@ -9,14 +9,37 @@ import {
 import Comment from "./comment";
 import CommentForm from "./commentForm";
 
-const addComment = ({ text, userName, userId, parentId, setComments }) => {
-  const newComment = createComment({ text, userName, userId, parentId });
-  setComments((prevState) => [newComment, ...prevState]);
+const addComment = ({
+  text,
+  mode,
+  comment = {},
+  comments,
+  setComments,
+  currentUserId = null,
+  currentUserName = null,
+}) => {
+  let updatedComments;
+  const { id, userName, parentId } = comment;
+  if (mode == "COMMENTING" || mode == "REPLYING") {
+    const newComment = createComment({
+      text,
+      userId: currentUserId,
+      userName: currentUserName || userName,
+      parentId: parentId == null ? null : id,
+    });
+    updatedComments = [newComment, ...comments];
+  } else if (mode == "EDITING") {
+    updatedComments = [...comments, { ...comment, body: text }];
+  }
+
+  setComments(updatedComments);
 };
 
 const Comments = (props) => {
-  const { currentUserId = 1, userName = "Sam" } = props;
+  const { currentUserId = 1, currentUserName = "Sam" } = props;
   const [comments, setComments] = useState([]);
+  const [activeComment, setActiveComment] = useState({ id: null, mode: "" });
+
   const rootComments = comments.filter(({ parentId }) => parentId === null);
 
   useEffect(() => {
@@ -32,25 +55,29 @@ const Comments = (props) => {
         handleSubmit={({ text }) =>
           addComment({
             text,
-            userName,
+            mode: "COMMENTING",
+            comments,
+            currentUserId,
+            currentUserName,
             setComments,
-            parentId: null,
-            userId: currentUserId,
           })
         }
       />
       <div className="comments-container">
-        {rootComments.map(({ id, ...rest }) => {
+        {rootComments.map((comment) => {
+          const { id } = comment;
           const replies = getReplies({ comments, commentId: id });
           return (
             <Comment
               key={id}
-              id={id}
-              {...rest}
+              comment={comment}
               replies={replies}
               comments={comments}
+              addComment={addComment}
               setComments={setComments}
               currentUserId={currentUserId}
+              activeComment={activeComment}
+              setActiveComment={setActiveComment}
             />
           ); //TODO: add lazy loading for thousands of replies
         })}
