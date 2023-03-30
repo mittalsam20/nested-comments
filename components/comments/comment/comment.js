@@ -6,7 +6,7 @@ import { getReplies } from "@/utils/helperFunctions";
 import userAvatar from "../../../public/user-icon.png";
 
 const Comment = (props) => {
-  const { id, body, username, userId, parentId, createdAt, comments, replies } =
+  const { id, body, userName, userId, parentId, createdAt, comments, replies } =
     props;
 
   return (
@@ -16,7 +16,7 @@ const Comment = (props) => {
       </div>
       <div className="comment-right-part">
         <div className="comment-content">
-          <div className="comment-author">{username}</div>
+          <div className="comment-author">{userName}</div>
           <>{createdAt}</>
         </div>
         <div className="comment-text">{body}</div>

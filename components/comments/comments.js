@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
 
-import { getComments, getReplies } from "@/utils/helperFunctions";
+import {
+  getReplies,
+  getComments,
+  createComment,
+} from "@/utils/helperFunctions";
 
 import Comment from "./comment";
 import CommentForm from "./commentForm";
 
-const addComment = ({ text, parentId, comments }) => {
-  console.log(text, parentId, comments);
+const addComment = ({ text, userName, userId, parentId }) => {
+  createComment({ text, userName, userId, parentId });
 };
 
 const Comments = (props) => {
-  const { currentUserId = 1 } = props;
+  const { userId = 1, userName = "Sam" } = props;
   const [comments, setComments] = useState([]);
   const rootComments = comments.filter(({ parentId }) => parentId === null);
 
@@ -25,7 +29,7 @@ const Comments = (props) => {
       <CommentForm
         submitLabel={"write"}
         handleSubmit={({ text }) =>
-          addComment({ text, parentId: "s", comments })
+          addComment({ text, userId, userName, parentId: "s" })
         }
       />
       <div className="comments-container">
