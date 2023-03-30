@@ -1,9 +1,20 @@
 import React, { useState } from "react";
 
 const CommentForm = (props) => {
-  const { previousComment = "", submitLabel, handleSubmit } = props;
+  const {
+    previousComment = "",
+    submitLabel,
+    setActiveComment,
+    handleSubmit,
+  } = props;
   const [text, setText] = useState(previousComment);
-  const isTextAreaDisabled = text.length === 0;
+  const isTextAreaDisabled = text.length === 0 || text == previousComment;
+
+  const onClickCancel = (event) => {
+    event.preventDefault();
+    setActiveComment({ id: null, mode: "VIEW" });
+    setText("");
+  };
 
   const onClickSubmit = (event) => {
     event.preventDefault();
@@ -18,7 +29,10 @@ const CommentForm = (props) => {
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
-      <button className={"comment-form-button"} disabled={isTextAreaDisabled}>
+      <button className={"button button-secondary"} onClick={onClickCancel}>
+        {"Cancel"}
+      </button>
+      <button className={"button button-primary"} disabled={isTextAreaDisabled}>
         {submitLabel}
       </button>
     </form>

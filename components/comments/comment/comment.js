@@ -8,7 +8,6 @@ import CommentForm from "../commentForm/commentForm";
 
 const onClickDelete = ({ comments, setComments, commentId }) => {
   const filteredComments = comments.filter(({ id }) => id !== commentId);
-  console.log(comments, filteredComments);
   setComments(filteredComments);
 };
 
@@ -46,7 +45,7 @@ const getActionButton = ({
       label: "Edit",
       show: isUser,
       disabled: mode !== "VIEW",
-      onClick: () => onClickEdit(),
+      onClick: onClickEdit,
     },
     {
       id: "DELETE",
@@ -63,7 +62,6 @@ const Comment = (props) => {
     comment,
     replies,
     comments,
-    addComment,
     setComments,
     handleSubmit,
     activeComment,
@@ -79,6 +77,7 @@ const Comment = (props) => {
   const actionButtons = getActionButton({
     mode,
     userId,
+    parentId,
     currentUserId,
     createdAt,
     commentId: id,
@@ -87,7 +86,7 @@ const Comment = (props) => {
     onClickDelete,
     setActiveComment,
   });
-  // mode == "REPLYING";
+
   return (
     <div className="comment">
       <div className="comment-image-container">
@@ -98,6 +97,7 @@ const Comment = (props) => {
           <CommentForm
             previousComment={body}
             submitLabel={submitLabel}
+            setActiveComment={setActiveComment}
             handleSubmit={({ text }) => handleSubmit({ text, mode, comment })}
           />
         ) : (
@@ -113,8 +113,8 @@ const Comment = (props) => {
                   show && (
                     <div
                       key={id}
-                      className={"comment-action"}
                       onClick={onClick}
+                      className={"comment-action"}
                     >
                       {label}
                     </div>
@@ -123,6 +123,19 @@ const Comment = (props) => {
               })}
             </div>
           </>
+        )}
+
+        {activeCommentId == id && mode == "REPLYING" && (
+          <div className="reply-text-area-container">
+            <div className="comment-image-container">
+              <Image src={userAvatar} alt="userAvatar" />
+            </div>
+            <CommentForm
+              submitLabel={submitLabel}
+              setActiveComment={setActiveComment}
+              handleSubmit={({ text }) => handleSubmit({ text, mode, comment })}
+            />
+          </div>
         )}
 
         {replies.length > 0 && (

@@ -3,12 +3,13 @@ import React, { useState, useEffect } from "react";
 import {
   getReplies,
   getComments,
-  handleSubmit,
   createComment,
 } from "@/utils/helperFunctions";
 
 import Comment from "./comment";
 import CommentForm from "./commentForm";
+
+const newCommentInitialState = { id: "NEW_COMMENT", parentId: null };
 
 const addComment = ({
   text,
@@ -26,7 +27,7 @@ const addComment = ({
       text,
       userId: currentUserId,
       userName: currentUserName || userName,
-      parentId: parentId == null ? null : id,
+      parentId: parentId ? id : null,
     });
     updatedComments = [newComment, ...comments];
   } else if (mode == "EDITING") {
@@ -46,7 +47,6 @@ const Comments = (props) => {
     id: null,
     mode: "VIEW",
   });
-
   const rootComments = comments.filter(({ parentId }) => parentId === null);
 
   useEffect(() => {
@@ -71,8 +71,15 @@ const Comments = (props) => {
       <h3 className={"comments-title"}>{"Comments"}</h3>
       <div className={"comment-form-title"}>{"Write Comment"}</div>
       <CommentForm
-        submitLabel={"write"}
-        handleSubmit={({ text }) => handleSubmit({ text, mode: "COMMENTING" })}
+        submitLabel={"Comment"}
+        setActiveComment={setActiveComment}
+        handleSubmit={({ text }) =>
+          handleSubmit({
+            text,
+            mode: "COMMENTING",
+            comment: newCommentInitialState,
+          })
+        }
       />
       <div className="comments-container">
         {rootComments.map((comment) => {
@@ -84,7 +91,6 @@ const Comments = (props) => {
               comment={comment}
               replies={replies}
               comments={comments}
-              addComment={addComment}
               setComments={setComments}
               handleSubmit={handleSubmit}
               currentUserId={currentUserId}
