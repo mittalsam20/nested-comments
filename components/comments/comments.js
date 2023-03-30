@@ -22,12 +22,13 @@ const addComment = ({
 }) => {
   let updatedComments;
   const { id, userName, parentId } = comment;
+  console.log(comment, text);
   if (mode == "COMMENTING" || mode == "REPLYING") {
     const newComment = createComment({
       text,
       userId: currentUserId,
       userName: currentUserName || userName,
-      parentId: parentId ? id : null,
+      parentId: mode == "COMMENTING" && parentId == null ? null : id,
     });
     updatedComments = [newComment, ...comments];
   } else if (mode == "EDITING") {

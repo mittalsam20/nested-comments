@@ -88,7 +88,12 @@ const Comment = (props) => {
   });
 
   return (
-    <div className="comment">
+    <div
+      className="comment"
+      style={
+        parentId !== null && replies.length > 0 ? { marginBottom: "0" } : {}
+      }
+    >
       <div className="comment-image-container">
         <Image src={userAvatar} alt="userAvatar" />
       </div>
