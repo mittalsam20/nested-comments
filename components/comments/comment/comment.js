@@ -8,6 +8,7 @@ import CommentForm from "../commentForm/commentForm";
 
 const onClickDelete = ({ comments, setComments, commentId }) => {
   const filteredComments = comments.filter(({ id }) => id !== commentId);
+  console.log(comments, filteredComments);
   setComments(filteredComments);
 };
 
@@ -77,7 +78,7 @@ const Comment = (props) => {
     onClickDelete,
     setActiveComment,
   });
-
+  // mode == "REPLYING"
   return (
     <div className="comment">
       <div className="comment-image-container">
@@ -100,7 +101,7 @@ const Comment = (props) => {
             );
           })}
         </div>
-        {activeCommentId == id && (mode == "EDITING" || mode == "REPLYING") ? (
+        {activeCommentId == id && mode == "EDITING" ? (
           <CommentForm
             submitLabel={submitLabel}
             handleSubmit={({ text }) =>
@@ -123,7 +124,7 @@ const Comment = (props) => {
                 return (
                   <Comment
                     key={id}
-                    comment={comment}
+                    comment={reply}
                     replies={nestedReplies}
                     comments={comments}
                     setComments={setComments}
