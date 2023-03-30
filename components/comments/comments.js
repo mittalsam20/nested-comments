@@ -32,10 +32,10 @@ const Comments = (props) => {
         handleSubmit={({ text }) =>
           addComment({
             text,
-            userId: currentUserId,
             userName,
-            parentId: null,
             setComments,
+            parentId: null,
+            userId: currentUserId,
           })
         }
       />
@@ -49,6 +49,7 @@ const Comments = (props) => {
               {...rest}
               replies={replies}
               comments={comments}
+              setComments={setComments}
               currentUserId={currentUserId}
             />
           ); //TODO: add lazy loading for thousands of replies
