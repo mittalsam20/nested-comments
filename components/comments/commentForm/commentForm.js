@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 const CommentForm = (props) => {
-  const { submitLabel, handleSubmit } = props;
-  const [text, setText] = useState("");
+  const { previousComment = "", submitLabel, handleSubmit } = props;
+  const [text, setText] = useState(previousComment);
   const isTextAreaDisabled = text.length === 0;
 
   const onClickSubmit = (event) => {
