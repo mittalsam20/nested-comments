@@ -5,9 +5,45 @@ import { getReplies } from "@/utils/helperFunctions";
 
 import userAvatar from "../../../public/user-icon.png";
 
+const getActionButton = ({ userId, currentUserId, postedBy = "1" }) => {
+  const isUser = currentUserId == userId;
+  const isAuthor = postedBy == currentUserId;
+  console.log({ userId, currentUserId, postedBy, isUser, isAuthor });
+  return [
+    {
+      id: "REPLY",
+      label: "Reply",
+      show: true,
+      action: () => {},
+    },
+    {
+      id: "EDIT",
+      label: "Edit",
+      show: isUser,
+      action: () => {},
+    },
+    {
+      id: "DELETE",
+      label: "Delete",
+      show: isUser || isAuthor,
+      action: () => {},
+    },
+  ];
+};
+
 const Comment = (props) => {
-  const { id, body, userName, userId, parentId, createdAt, comments, replies } =
-    props;
+  const {
+    id,
+    body,
+    userName,
+    userId,
+    parentId,
+    createdAt,
+    comments,
+    replies,
+    currentUserId = 1,
+  } = props;
+  const actionButtons = getActionButton({ userId, currentUserId });
 
   return (
     <div className="comment">
@@ -20,6 +56,17 @@ const Comment = (props) => {
           <>{createdAt}</>
         </div>
         <div className="comment-text">{body}</div>
+        <div className="comment-actions">
+          {actionButtons.map(({ id, label, show, action }) => {
+            return (
+              show && (
+                <div key={id} className={"comment-action"}>
+                  {label}
+                </div>
+              )
+            );
+          })}
+        </div>
         {replies.length > 0 && (
           <div className="replies">
             {replies.map(({ id, ...rest }) => {

@@ -9,12 +9,13 @@ import {
 import Comment from "./comment";
 import CommentForm from "./commentForm";
 
-const addComment = ({ text, userName, userId, parentId }) => {
-  createComment({ text, userName, userId, parentId });
+const addComment = ({ text, userName, userId, parentId, setComments }) => {
+  const newComment = createComment({ text, userName, userId, parentId });
+  setComments((prevState) => [newComment, ...prevState]);
 };
 
 const Comments = (props) => {
-  const { userId = 1, userName = "Sam" } = props;
+  const { currentUserId = 1, userName = "Sam" } = props;
   const [comments, setComments] = useState([]);
   const rootComments = comments.filter(({ parentId }) => parentId === null);
 
@@ -29,7 +30,13 @@ const Comments = (props) => {
       <CommentForm
         submitLabel={"write"}
         handleSubmit={({ text }) =>
-          addComment({ text, userId, userName, parentId: "s" })
+          addComment({
+            text,
+            userId: currentUserId,
+            userName,
+            parentId: null,
+            setComments,
+          })
         }
       />
       <div className="comments-container">
@@ -42,6 +49,7 @@ const Comments = (props) => {
               {...rest}
               replies={replies}
               comments={comments}
+              currentUserId={currentUserId}
             />
           ); //TODO: add lazy loading for thousands of replies
         })}
