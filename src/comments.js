@@ -6,9 +6,9 @@ import {
   createComment
 } from './utils/helperFunctions.js'
 
-import './index.css'
 import Comment from './comment'
 import CommentForm from './commentForm'
+import styles from './styles.module.css'
 
 const newCommentInitialState = { id: 'NEW_COMMENT', parentId: null }
 
@@ -24,17 +24,17 @@ const addComment = ({
   let updatedComments
   const { id, userName, parentId } = comment
   console.log(comment, text)
-  if (mode == 'COMMENTING' || mode == 'REPLYING') {
+  if (mode === 'COMMENTING' || mode === 'REPLYING') {
     const newComment = createComment({
       text,
       userId: currentUserId,
       userName: currentUserName || userName,
-      parentId: mode == 'COMMENTING' && parentId == null ? null : id
+      parentId: mode === 'COMMENTING' && parentId == null ? null : id
     })
     updatedComments = [newComment, ...comments]
-  } else if (mode == 'EDITING') {
+  } else if (mode === 'EDITING') {
     updatedComments = comments.map((comment) => {
-      if (comment.id == id) return { ...comment, body: text }
+      if (comment.id === id) return { ...comment, body: text }
       return comment
     })
   }
@@ -69,11 +69,11 @@ const Comments = (props) => {
   }
 
   return (
-    <div className={'comments'}>
-      <h3 className={'comments-title'}>{'Comments'}</h3>
-      <div className={'comment-form-title'}>{'Write Comment'}</div>
+    <div className={styles.comments}>
+      <h3 className={styles.commentsTitle}>comments</h3>
+      <div className={styles.commentFormTitle}>Write Comment</div>
       <CommentForm
-        submitLabel={'Comment'}
+        submitLabel='comment'
         setActiveComment={setActiveComment}
         handleSubmit={({ text }) =>
           handleSubmit({
@@ -83,7 +83,7 @@ const Comments = (props) => {
           })
         }
       />
-      <div className='comments-container'>
+      <div className={styles.commentsContainer}>
         {rootComments.map((comment) => {
           const { id } = comment
           const replies = getReplies({ comments, commentId: id })
@@ -99,7 +99,7 @@ const Comments = (props) => {
               activeComment={activeComment}
               setActiveComment={setActiveComment}
             />
-          ) //TODO: add lazy loading for thousands of replies
+          ) // TODO: add lazy loading for thousands of replies
         })}
       </div>
     </div>

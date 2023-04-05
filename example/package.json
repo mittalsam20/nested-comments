@@ -1,5 +1,5 @@
 {
-  "name": "react-nested-comments-example",
+  "name": "nested_comments-example",
   "homepage": ".",
   "version": "0.0.0",
   "private": true,
@@ -10,9 +10,9 @@
     "eject": "node ../node_modules/react-scripts/bin/react-scripts.js eject"
   },
   "dependencies": {
+    "nested_comments": "file:..",
     "react": "file:../node_modules/react",
     "react-dom": "file:../node_modules/react-dom",
-    "react-nested-comments": "file:..",
     "react-scripts": "file:../node_modules/react-scripts"
   },
   "devDependencies": {

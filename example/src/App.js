@@ -1,7 +1,7 @@
 import React from 'react'
 
-import NestedComments from 'react-nested-comments'
-import 'react-nested-comments/dist/index.css'
+import NestedComments from 'nested_comments'
+import 'nested_comments/dist/index.css'
 
 const App = () => {
   return <NestedComments />

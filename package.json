@@ -1,6 +1,6 @@
 {
-  "name": "react-nested-comments",
-  "version": "1.0.0",
+  "name": "nested_comments",
+  "version": "1.0.1",
   "description": "a library which will give your application the ability to add nested comments",
   "author": "mittalsam20",
   "license": "MIT",
@@ -16,10 +16,11 @@
     "comments",
     "nested comments",
     "react-component",
-    "nested-comments",
-    "react-nested-comments"
+    "nestedcomments",
+    "react-nested-comments",
+    "nested_comments"
   ],
-  "homepage": "https://github.com/mittalsam20/nested-comments",
+  "homepage": "https://github.com/mittalsam20/nested_comments",
   "scripts": {
     "build": "microbundle-crl --no-compress --format modern,cjs",
     "start": "microbundle-crl watch --no-compress --format modern,cjs",

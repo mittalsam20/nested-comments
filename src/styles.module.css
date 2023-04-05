@@ -2,20 +2,20 @@
   margin-top: 20px;
 }
 
-.comments-title {
+.commentsTitle {
   font-size: 30px;
   margin-bottom: 20px;
 }
 
-.comments-container {
+.commentsContainer {
   margin-top: 40px;
 }
 
-.comment-form-title {
+.commentFormTitle {
   font-size: 22px;
 }
 
-.comment-form-textarea {
+.commentFormTextarea {
   width: 100%;
   height: 80px;
   margin-bottom: 8px;
@@ -30,12 +30,12 @@
   border: none;
 }
 
-.button-primary {
+.buttonPrimary {
   background: rgb(59, 130, 246);
   color: white;
 }
 
-.button-secondary {
+.buttonSecondary {
   background: rgb(192, 192, 192);
   margin-right: 12px;
 }
@@ -54,33 +54,33 @@
   margin-bottom: 28px;
 }
 
-.comment-image-container {
+.commentImageContainer {
   margin-right: 12px;
 }
 
-.comment-image-container img {
+.commentImageContainer img {
   border-radius: 50px;
 }
 
-.comment-right-part {
+.commentRightPart {
   width: 100%;
 }
 
-.comment-content {
+.commentContent {
   display: flex;
 }
 
-.comment-author {
+.commentAuthor {
   margin-right: 8px;
   font-size: 20px;
   color: rgb(59, 130, 246);
 }
 
-.comment-text {
+.commentText {
   font-size: 18px;
 }
 
-.comment-actions {
+.commentActions {
   display: flex;
   font-size: 12px;
   color: rgb(51, 51, 51);
@@ -88,11 +88,11 @@
   margin-top: 8px;
 }
 
-.comment-action {
+.commentAction {
   margin-right: 8px;
 }
 
-.comment-action:hover {
+.commentAction:hover {
   text-decoration: underline;
 }
 
@@ -100,7 +100,7 @@
   margin-top: 20px;
 }
 
-.reply-text-area-container {
+.replyTextAreaContainer {
   display: flex;
   margin-bottom: 20px;
   margin-top: 20px;

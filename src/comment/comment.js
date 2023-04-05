@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 
 import CommentForm from '../commentForm'
+import styles from '../styles.module.css'
 import { getReplies } from '../utils/helperFunctions'
 
 const onClickDelete = ({ comments, setComments, commentId }) => {
@@ -20,8 +21,8 @@ const getActionButton = ({
   postedBy = '1',
   setActiveComment
 }) => {
-  const isUser = currentUserId == userId
-  const isAuthor = postedBy == currentUserId
+  const isUser = currentUserId === userId
+  const isAuthor = postedBy === currentUserId
   // const fiveMinutes = 300000
   // const timePassed = new Date() - new Date(createdAt) > fiveMinutes
 
@@ -69,7 +70,7 @@ const Comment = (props) => {
   const { id: activeCommentId, mode } = activeComment
   const { id, body, userName, userId, parentId, createdAt } = comment
 
-  const submitLabel = mode == 'EDITING' ? 'Save' : 'Comment'
+  const submitLabel = mode === 'EDITING' ? 'Save' : 'Comment'
   const formattedDate = new Date(createdAt).toLocaleDateString()
   const actionButtons = getActionButton({
     mode,
@@ -86,16 +87,16 @@ const Comment = (props) => {
 
   return (
     <div
-      className='comment'
+      className={styles.comment}
       style={
         parentId !== null && replies.length > 0 ? { marginBottom: '0' } : {}
       }
     >
-      <div className='comment-image-container'>
-        <img src={'/user-icon.png'} alt='us' />
+      <div className={styles.commentImageContainer}>
+        <img src='/user-icon.png' alt='us' />
       </div>
-      <div className='comment-right-part'>
-        {activeCommentId == id && mode == 'EDITING' ? (
+      <div className={styles.commentRightPart}>
+        {activeCommentId === id && mode === 'EDITING' ? (
           <CommentForm
             previousComment={body}
             submitLabel={submitLabel}
@@ -104,19 +105,19 @@ const Comment = (props) => {
           />
         ) : (
           <>
-            <div className='comment-content'>
-              <div className='comment-author'>{userName}</div>
+            <div className={styles.commentContent}>
+              <div className={styles.commentAuthor}>{userName}</div>
               <>{formattedDate}</>
             </div>
-            <div className='comment-text'>{body}</div>
-            <div className='comment-actions'>
+            <div className={styles.commentText}>{body}</div>
+            <div className={styles.commentActions}>
               {actionButtons.map(({ id, label, show, onClick }) => {
                 return (
                   show && (
                     <div
                       key={id}
                       onClick={onClick}
-                      className={'comment-action'}
+                      className={styles.commentAction}
                     >
                       {label}
                     </div>
@@ -127,10 +128,10 @@ const Comment = (props) => {
           </>
         )}
 
-        {activeCommentId == id && mode == 'REPLYING' && (
-          <div className='reply-text-area-container'>
-            <div className='comment-image-container'>
-              <img src={'/user-icon.png'} alt='ava' />
+        {activeCommentId === id && mode === 'REPLYING' && (
+          <div className={styles.replyTextAreaContainer}>
+            <div className={styles.commentImageContainer}>
+              <img src='/user-icon.png' alt='ava' />
             </div>
             <CommentForm
               submitLabel={submitLabel}
@@ -141,7 +142,7 @@ const Comment = (props) => {
         )}
 
         {replies.length > 0 && (
-          <div className={'replies'}>
+          <div className={styles.replies}>
             {replies.map((reply) => {
               const { id } = reply
               const nestedReplies = getReplies({ comments, commentId: id })
