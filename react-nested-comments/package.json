@@ -11,6 +11,15 @@
   "engines": {
     "node": ">=10"
   },
+  "keywords": [
+    "react",
+    "comments",
+    "nested comments",
+    "react-component",
+    "nested-comments",
+    "react-nested-comments"
+  ],
+  "homepage": "https://github.com/mittalsam20/nested-comments",
   "scripts": {
     "build": "microbundle-crl --no-compress --format modern,cjs",
     "start": "microbundle-crl watch --no-compress --format modern,cjs",
@@ -49,5 +58,8 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "nanoid": "^4.0.2"
+  }
 }
